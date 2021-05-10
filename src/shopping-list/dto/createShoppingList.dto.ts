@@ -1,6 +1,7 @@
 export class CreateShoppingListDto {
-  user_email: string;
-  name: string;
+  userId: string;
+  listName: string;
+  items: Array<{ name: string; quantity: number }>;
 }
 
 export default CreateShoppingListDto;

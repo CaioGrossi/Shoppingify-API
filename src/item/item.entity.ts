@@ -1,5 +1,12 @@
-import { Column, PrimaryGeneratedColumn, Entity, OneToMany } from 'typeorm';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { ShoppingListItem } from '../shopping-list-item/shopping-list-item.entity';
+import { Category } from '../category/category.entity';
 
 @Entity()
 export class Item {
@@ -14,4 +21,7 @@ export class Item {
     (shoppingListItem: ShoppingListItem) => shoppingListItem.item,
   )
   lists: ShoppingListItem[];
+
+  @ManyToOne(() => Category, (category) => category.items)
+  category: Category;
 }

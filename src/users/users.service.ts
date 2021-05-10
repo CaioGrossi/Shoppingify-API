@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -21,7 +21,20 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
+  async findById(id: string) {
+    return await this.userRepository.findOne({ where: { id: id } });
+  }
+
   async create(userData: CreateUserDto): Promise<User> {
+    const userAlredyExists = await this.findByEmail(userData.email);
+
+    if (userAlredyExists) {
+      throw new UnauthorizedException({
+        status: 401,
+        message: 'User with this email already exists.',
+      });
+    }
+
     const encryptedPassword = await this.encryptionService.hash(
       userData.password,
     );
