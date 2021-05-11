@@ -48,8 +48,51 @@ export class ShoppingListService {
     return newShoppingList;
   }
 
-  async findByUserId(id: string): Promise<ShoppingList[]> {
+  async findByUserId(id: string) {
     const user = await this.usersService.findById(id);
-    return await this.shoppingListRepository.find({ where: { owner: user } });
+    const lists = await this.shoppingListRepository.find({
+      where: { owner: user },
+      order: { createdAt: 'DESC' },
+    });
+
+    const listsByMonth = [];
+
+    lists.forEach((list) => {
+      const months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ];
+
+      const year = list.createdAt.getFullYear();
+      const month = months[list.createdAt.getMonth()];
+      let finded = false;
+
+      for (let i = 0; i < listsByMonth.length; i++) {
+        if (listsByMonth[i].date === `${month}, ${year}`) {
+          listsByMonth[i].lists.push(list);
+          finded = true;
+          break;
+        }
+      }
+
+      if (!finded) {
+        listsByMonth.push({
+          date: `${month}, ${year}`,
+          lists: [list],
+        });
+      }
+    });
+
+    return listsByMonth;
   }
 }
