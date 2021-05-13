@@ -1,3 +1,5 @@
+import { TopUserCategories } from 'src/top-user-categories/top-user-categories.entity';
+import { TopUserItems } from 'src/top-user-items/top-user-items.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 
@@ -18,12 +20,21 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ default: 0 })
   items_quantity: number;
 
-  @Column()
+  @Column({ default: 0 })
   category_quantity: number;
 
   @OneToMany(() => ShoppingList, (ShoppingList) => ShoppingList.owner)
   shopping_lists: ShoppingList[];
+
+  @OneToMany(() => TopUserItems, (TopUserItems) => TopUserItems.owner)
+  top_items: TopUserItems[];
+
+  @OneToMany(
+    () => TopUserCategories,
+    (TopUserCategories) => TopUserCategories.owner,
+  )
+  top_categories: TopUserCategories[];
 }

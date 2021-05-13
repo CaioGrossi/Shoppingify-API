@@ -51,7 +51,10 @@ export class ItemService {
   }
 
   async findByName(name: string): Promise<Item> {
-    const item = await this.itemRepository.findOne({ where: { name: name } });
+    const item = await this.itemRepository.findOne({
+      where: { name: name },
+      relations: ['category'],
+    });
     return item;
   }
 

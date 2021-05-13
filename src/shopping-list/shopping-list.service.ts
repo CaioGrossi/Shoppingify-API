@@ -7,6 +7,9 @@ import CreateShoppingListDto from './dto/createShoppingList.dto';
 import { ItemService } from 'src/item/item.service';
 import { ShoppingListItemService } from 'src/shopping-list-item/shopping-list-item.service';
 
+import { TopUserItemsService } from 'src/top-user-items/top-user-items.service';
+import { TopUserCategoriesService } from 'src/top-user-categories/top-user-categories.service';
+
 @Injectable()
 export class ShoppingListService {
   constructor(
@@ -16,12 +19,16 @@ export class ShoppingListService {
     private readonly itemService: ItemService,
     @Inject(forwardRef(() => ShoppingListItemService))
     private readonly shoppingListItemService: ShoppingListItemService,
+    private readonly topUserItemsService: TopUserItemsService,
+    private readonly topUserCategoriesService: TopUserCategoriesService,
   ) {}
 
   async create(shoppingListData: CreateShoppingListDto): Promise<ShoppingList> {
     const { userId, items } = shoppingListData;
 
     const user = await this.usersService.findById(userId);
+
+    const categories = [];
 
     const newShoppingList = this.shoppingListRepository.create({
       name: shoppingListData.listName,
@@ -30,17 +37,23 @@ export class ShoppingListService {
 
     await this.shoppingListRepository.save(newShoppingList);
 
-    items.forEach(async (oneItem) => {
+    for (const oneItem of items) {
       const item = await this.itemService.findByName(oneItem.name);
 
-      this.shoppingListItemService.create({
+      categories.push(item.category.name);
+
+      await this.shoppingListItemService.create({
         item: item,
         quantity: oneItem.quantity,
         shoppingList: newShoppingList,
       });
-    });
+
+      await this.topUserItemsService.updateUsedTimes(user, item.name);
+    }
 
     await this.shoppingListRepository.save(newShoppingList);
+
+    await this.topUserCategoriesService.updateUsedTimes(user, categories);
 
     await this.usersService.uptadeItemsQuantity(
       userId,
