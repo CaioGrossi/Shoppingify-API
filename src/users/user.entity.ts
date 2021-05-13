@@ -18,6 +18,12 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  items_quantity: number;
+
+  @Column()
+  category_quantity: number;
+
   @OneToMany(() => ShoppingList, (ShoppingList) => ShoppingList.owner)
   shopping_lists: ShoppingList[];
 }

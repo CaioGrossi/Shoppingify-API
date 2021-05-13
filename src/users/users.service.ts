@@ -21,6 +21,26 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { email: email } });
   }
 
+  async uptadeItemsQuantity(
+    userId: string,
+    oldQuantity: number,
+    quantityToIncrease: number,
+  ) {
+    this.userRepository.update(userId, {
+      items_quantity: oldQuantity + quantityToIncrease,
+    });
+  }
+
+  async updateCategoriesQuantity(
+    userId: string,
+    oldQuantity: number,
+    quantityToIncrease: number,
+  ) {
+    this.userRepository.update(userId, {
+      category_quantity: oldQuantity + quantityToIncrease,
+    });
+  }
+
   async findById(id: string) {
     return await this.userRepository.findOne({ where: { id: id } });
   }

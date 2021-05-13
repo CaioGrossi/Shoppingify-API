@@ -5,11 +5,12 @@ import {
   ManyToOne,
   OneToMany,
   CreateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { ShoppingListItem } from '../shopping-list-item/shopping-list-item.entity';
 import { User } from '../users/user.entity';
 
-@Entity()
+@Entity('shopping_list')
 export class ShoppingList {
   @PrimaryGeneratedColumn('uuid')
   id: number;
@@ -30,5 +31,6 @@ export class ShoppingList {
     () => ShoppingListItem,
     (shoppingListItem) => shoppingListItem.shoppingList,
   )
+  @JoinColumn({ referencedColumnName: 'shopping_list_id' })
   items: ShoppingListItem[];
 }

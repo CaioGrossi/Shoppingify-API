@@ -4,6 +4,7 @@ import {
   Entity,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ShoppingListItem } from '../shopping-list-item/shopping-list-item.entity';
 import { Category } from '../category/category.entity';
@@ -20,6 +21,7 @@ export class Item {
     () => ShoppingListItem,
     (shoppingListItem: ShoppingListItem) => shoppingListItem.item,
   )
+  @JoinColumn({ referencedColumnName: 'item_id' })
   lists: ShoppingListItem[];
 
   @ManyToOne(() => Category, (category) => category.items)

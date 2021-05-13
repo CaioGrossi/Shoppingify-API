@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ShoppingListService } from './shopping-list.service';
 import { ShoppingListController } from './shopping-list.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,7 +12,7 @@ import { ShoppingListItemModule } from 'src/shopping-list-item/shopping-list-ite
     TypeOrmModule.forFeature([ShoppingList]),
     UsersModule,
     ItemModule,
-    ShoppingListItemModule,
+    forwardRef(() => ShoppingListItemModule),
   ],
   providers: [ShoppingListService],
   controllers: [ShoppingListController],

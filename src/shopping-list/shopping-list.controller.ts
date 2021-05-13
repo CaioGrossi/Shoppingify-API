@@ -29,10 +29,26 @@ export class ShoppingListController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('get-by-user')
-  async getShoppingListByUser(@Request() request) {
+  @Get('get-all-by-user')
+  async getAllShoppingListsByUser(@Request() request) {
     const id = request.user.userId;
-    const shoppingLists = await this.shoppingListService.findByUserId(id);
+    const shoppingLists = await this.shoppingListService.findByUserIdWithDate(
+      id,
+    );
     return shoppingLists;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('get-by-user')
+  async getByShoppingListId(@Request() request, @Body() list: { id: string }) {
+    const userId = request.user.userId;
+    const listId = list.id;
+
+    const shoppingList = await this.shoppingListService.findByUserIdWithItems(
+      userId,
+      listId,
+    );
+
+    return shoppingList;
   }
 }
