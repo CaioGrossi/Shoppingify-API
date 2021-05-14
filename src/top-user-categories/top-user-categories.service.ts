@@ -11,47 +11,42 @@ export class TopUserCategoriesService {
     private topUserCategoriesRepository: Repository<TopUserCategories>,
   ) {}
 
-  async updateUsedTimes(user: User, categories: string[]) {
-    const categoriesCount = categories.reduce(
-      (acc, value) => ({
-        ...acc,
-        [value]: (acc[value] || 0) + 1,
-      }),
-      {},
-    );
+  async updateUsedTimes(user: User, categoryName: string) {
+    const topCategory = await this.topUserCategoriesRepository.findOne({
+      where: { name: categoryName, owner: user },
+    });
 
-    for (const prop in categoriesCount) {
-      const categoryEntity = await this.topUserCategoriesRepository.findOne({
-        where: { owner: user, name: prop },
+    if (topCategory) {
+      await this.topUserCategoriesRepository.update(topCategory.id, {
+        used_times: topCategory.used_times + 1,
       });
-
-      if (categoryEntity) {
-        await this.topUserCategoriesRepository.update(categoryEntity.id, {
-          used_times: categoryEntity.used_times + categoriesCount[prop],
-        });
-        return;
-      }
-
-      const newTopCategory = this.topUserCategoriesRepository.create({
-        name: prop,
-        used_times: 1,
-        owner: user,
-      });
-
-      await this.topUserCategoriesRepository.save(newTopCategory);
 
       return;
     }
+
+    const newTopCategory = this.topUserCategoriesRepository.create({
+      name: categoryName,
+      used_times: 1,
+      owner: user,
+    });
+
+    await this.topUserCategoriesRepository.save(newTopCategory);
+    return;
   }
 
-  async getByUser(userId: string) {
-    const topItems = await this.topUserCategoriesRepository.find({
+  async getByUser(userId: string, totalCategories: number) {
+    const topCategories = await this.topUserCategoriesRepository.find({
       where: { owner: userId },
       order: {
         used_times: 'DESC',
       },
     });
 
-    return topItems;
+    const topCategoriesPercentage = topCategories.map((category) => ({
+      name: category.name,
+      percentage: Math.round((category.used_times * 100) / totalCategories),
+    }));
+
+    return topCategoriesPercentage;
   }
 }

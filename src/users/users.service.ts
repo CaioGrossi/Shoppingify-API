@@ -73,8 +73,16 @@ export class UsersService {
   }
 
   async getStatistics(userId: string) {
-    const topItems = await this.topUserItemsService.getByUser(userId);
-    const topCategories = await this.topUserCategoriesService.getByUser(userId);
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    const topItems = await this.topUserItemsService.getByUser(
+      userId,
+      user.items_quantity,
+    );
+    const topCategories = await this.topUserCategoriesService.getByUser(
+      userId,
+      user.category_quantity,
+    );
 
     return { topItems, topCategories };
   }

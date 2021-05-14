@@ -34,7 +34,7 @@ export class TopUserItemsService {
     return;
   }
 
-  async getByUser(userId: string) {
+  async getByUser(userId: string, totalItems: number) {
     const topItems = await this.topUserItemsRepository.find({
       where: { owner: userId },
       order: {
@@ -42,6 +42,11 @@ export class TopUserItemsService {
       },
     });
 
-    return topItems;
+    const topItemsPercentage = topItems.map((item) => ({
+      name: item.name,
+      percentage: Math.round((item.used_times * 100) / totalItems),
+    }));
+
+    return topItemsPercentage;
   }
 }

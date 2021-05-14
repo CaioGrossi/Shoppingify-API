@@ -28,8 +28,6 @@ export class ShoppingListService {
 
     const user = await this.usersService.findById(userId);
 
-    const categories = [];
-
     const newShoppingList = this.shoppingListRepository.create({
       name: shoppingListData.listName,
       owner: user,
@@ -40,8 +38,6 @@ export class ShoppingListService {
     for (const oneItem of items) {
       const item = await this.itemService.findByName(oneItem.name);
 
-      categories.push(item.category.name);
-
       await this.shoppingListItemService.create({
         item: item,
         quantity: oneItem.quantity,
@@ -49,11 +45,13 @@ export class ShoppingListService {
       });
 
       await this.topUserItemsService.updateUsedTimes(user, item.name);
+      await this.topUserCategoriesService.updateUsedTimes(
+        user,
+        item.category.name,
+      );
     }
 
     await this.shoppingListRepository.save(newShoppingList);
-
-    await this.topUserCategoriesService.updateUsedTimes(user, categories);
 
     await this.usersService.uptadeItemsQuantity(
       userId,
