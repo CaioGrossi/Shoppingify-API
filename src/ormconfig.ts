@@ -14,8 +14,11 @@ const config: ConnectionOptions = {
     migrationsDir: 'src/migrations',
   },
 
+  ssl: true,
   extra: {
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 };
 
