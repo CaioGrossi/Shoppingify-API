@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './configs/typeorm.config';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { EncryptionModule } from './encryption/encryption.module';
@@ -13,10 +12,11 @@ import { ShoppingListItemModule } from './shopping-list-item/shopping-list-item.
 import { CategoryModule } from './category/category.module';
 import { TopUserItemsModule } from './top-user-items/top-user-items.module';
 import { TopUserCategoriesModule } from './top-user-categories/top-user-categories.module';
+import * as config from './ormconfig';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
+    TypeOrmModule.forRoot(config),
     UsersModule,
     AuthModule,
     EncryptionModule,
