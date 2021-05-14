@@ -10,12 +10,16 @@ export class ShoppingListItem {
   @Column()
   checked: boolean;
 
-  @ManyToOne(() => Item, (item) => item.lists, { primary: true })
+  @ManyToOne(() => Item, (item) => item.lists, {
+    primary: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'item_id' })
   item: Item;
 
   @ManyToOne(() => ShoppingList, (shoppingList) => shoppingList.items, {
     primary: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'shopping_list_id' })
   shoppingList: ShoppingList;

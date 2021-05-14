@@ -29,6 +29,12 @@ export class ShoppingListController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('delete')
+  async delete(@Body() list: { id: string }, @Request() request) {
+    return await this.shoppingListService.delete(list.id, request.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('get-all-by-user')
   async getAllShoppingListsByUser(@Request() request) {
     const id = request.user.userId;
