@@ -20,7 +20,7 @@ export class ShoppingListController {
     @Body() createShoopingListDto: CreateShoppingListDto,
     @Request() request,
   ) {
-    const shoppingList = this.shoppingListService.create({
+    const shoppingList = await this.shoppingListService.create({
       ...createShoopingListDto,
       userId: request.user.userId,
     });

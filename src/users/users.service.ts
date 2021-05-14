@@ -4,6 +4,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import CreateUserDto from './dto/createUser.dto';
 import { EncryptionService } from 'src/encryption/encryption.service';
+import { TopUserItemsService } from 'src/top-user-items/top-user-items.service';
+import { TopUserCategoriesService } from 'src/top-user-categories/top-user-categories.service';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +13,8 @@ export class UsersService {
     @InjectRepository(User)
     private userRepository: Repository<User>,
     private readonly encryptionService: EncryptionService,
+    private readonly topUserItemsService: TopUserItemsService,
+    private readonly topUserCategoriesService: TopUserCategoriesService,
   ) {}
 
   async findAll(): Promise<User[]> {
@@ -66,5 +70,12 @@ export class UsersService {
 
     await this.userRepository.save(newUser);
     return newUser;
+  }
+
+  async getStatistics(userId: string) {
+    const topItems = await this.topUserItemsService.getByUser(userId);
+    const topCategories = await this.topUserCategoriesService.getByUser(userId);
+
+    return { topItems, topCategories };
   }
 }

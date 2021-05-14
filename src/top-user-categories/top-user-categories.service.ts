@@ -43,4 +43,15 @@ export class TopUserCategoriesService {
       return;
     }
   }
+
+  async getByUser(userId: string) {
+    const topItems = await this.topUserCategoriesRepository.find({
+      where: { owner: userId },
+      order: {
+        used_times: 'DESC',
+      },
+    });
+
+    return topItems;
+  }
 }
