@@ -69,16 +69,16 @@ export class ShoppingListService {
   }
 
   async delete(id: string, userId: number) {
-    const shoppingList = await this.shoppingListRepository.findOne({
+    const shoppinglist = await this.shoppingListRepository.findOne({
       where: { id: id },
       relations: ['owner'],
     });
 
-    if (shoppingList.owner.id != userId) {
+    if (shoppinglist.owner.id != userId) {
       return null;
     }
 
-    await this.shoppingListRepository.remove(shoppingList);
+    await this.shoppingListRepository.remove(shoppinglist);
   }
 
   async verifyStatusById(id: string) {
