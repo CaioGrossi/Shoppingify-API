@@ -38,6 +38,7 @@ export class ShoppingListController {
   @Get('get-all-by-user')
   async getAllShoppingListsByUser(@Request() request) {
     const id = request.user.userId;
+    console.log(id);
     const shoppingLists = await this.shoppingListService.findByUserIdWithDate(
       id,
     );
