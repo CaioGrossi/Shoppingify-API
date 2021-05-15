@@ -1,5 +1,8 @@
 import { ConnectionOptions } from 'typeorm';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+
 const config: ConnectionOptions = {
   type: 'postgres',
   url: process.env.DATABASE_URL,
