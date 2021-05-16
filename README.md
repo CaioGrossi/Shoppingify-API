@@ -36,6 +36,6 @@ Pela utilização de TypeORM, foi possível explorar toda a parte de criação d
 O deploy foi feito na plataforma do Heroku, que é bem simples de usar. Os principais pontos que tive que prestar mais atenção foram na parte de variáveis de ambiente (da Url do banco dados principalmente), adicionar um addon do banco postgres ao app no heroku, rodar as migrations iniciais na máquina hospedada no heroku e algumas configurações do TypeORM para rodar em produção.
 
 ## Tópicos estudados
-* NestJS
+* Framework NestJs e suas funcionalidades
 * Injeção de dependências
 * Arquitetura de módulos para construção de API (controllers, serviços, entidades)
