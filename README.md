@@ -32,6 +32,9 @@ O framework introduz esse conceito de Guards, que tem a única responsabilidade 
 ### TypeORM
 Pela utilização de TypeORM, foi possível explorar toda a parte de criação de entidades usando sua sintaxe própria e de manipulação de repositórios. Apesar de toda adaptação ser já feita pelo framework, algumas coisas com configuração tem que ser tratadas manualmente.
 
+### Manipulação de dados
+Quando se constroi uma API, essa com certa é a habilidade mais desenvolvida. Nem sempre você pode somente pegar os dados do banco de dados e manda-lo para o cliente do mesmo jeio que veio, "crú". Um exemplo é em uma das principais rotas da api, a de 'items/index', onde ela retorna todos os items listados por categoria. Nesse caso ouve uma simples manoipulação para poder percorrer pelo items e separar cada um de acordo com sua categoria, para mandar ao cliente dados mais facéis de serem entedidos e apresentados ao usuário.
+
 ### Deploy
 O deploy foi feito na plataforma do Heroku, que é bem simples de usar. Os principais pontos que tive que prestar mais atenção foram na parte de variáveis de ambiente (da Url do banco dados principalmente), adicionar um addon do banco postgres ao app no heroku, rodar as migrations iniciais na máquina hospedada no heroku e algumas configurações do TypeORM para rodar em produção.
 
