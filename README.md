@@ -1,6 +1,16 @@
 # Shoppingify - API
 Shoppingify-API foi construída para manipular os dados da aplicação Shoppingify. A API que utiliza NestJs, tem como responsabilidades lidar com as requisições do lado do cliente, como autenticação de usuário, criação, remocação e consulta de listas por usuário, criação de items e categorias e etc (melhor explorado nos tópicos abaixo que falam sobre as rotas da API).
 
+## Rotas da API
+
+### ``` auth/register ```
+Recebe como dado o email, senha, primeiro e segundo nome do usuário para efetuar cadastro. (POST)
+Retorna o usuário criado.
+
+### ``` auth/login ```
+Recebe como dado o email se senha do usuário para efetuar login. (POST)
+Retorna os dados do usuário com um token JWT para futuras chamadas autenticadas.
+
 ## Pré-requisitos
 Ter uma versão atualizada do NodeJS instalada em sua máquina e um gerenciador de pacotes (yarn ou npm).
 
