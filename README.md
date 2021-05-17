@@ -4,44 +4,44 @@ Shoppingify-API foi construída para manipular os dados da aplicação Shoppingi
 ## Rotas da API
 
 ### ``` auth/register ```
-Recebe como dado o email, senha, primeiro e segundo nome do usuário para efetuar cadastro. (POST)
-Retorna o usuário criado.
+* Recebe como dado o email, senha, primeiro e segundo nome do usuário para efetuar cadastro. (POST)
+* Retorna o usuário criado.
 
 ### ``` auth/login ```
-Recebe como dado o email se senha do usuário para efetuar login. (POST)
-Retorna os dados do usuário com um token JWT para futuras chamadas autenticadas.
+* Recebe como dado o email se senha do usuário para efetuar login. (POST)
+* Retorna os dados do usuário com um token JWT para futuras chamadas autenticadas.
 
 ### ``` item/create ```
-Recebe como dado o nome do item a ser criado. (POST)
-Retorna o item criado.
+* Recebe como dado o nome do item a ser criado. (POST)
+* Retorna o item criado.
 
 ### ``` item/index ```
-Não recebe dados. (GET)
-Retorna todos os itens cadastrados separados por categorias.
+* Não recebe dados. (GET)
+* Retorna todos os itens cadastrados separados por categorias.
 
 ### ``` shopping-list/create ```
-Recebe como dado o nome e os itens da lista. Rota protegida por meio do token JWT. (POST)
-Retorna a lista criada.
+* Recebe como dado o nome e os itens da lista. Rota protegida por meio do token JWT. (POST)
+* Retorna a lista criada.
 
 ### ``` shopping-list/delete ```
-Recebe como dado o id da lista a ser deletada. Rota protegida por meio do token JWT. (POST)
-Não tem retorno.
+* Recebe como dado o id da lista a ser deletada. Rota protegida por meio do token JWT. (POST)
+* Não tem retorno.
 
 ### ``` shopping-list/get-all-by-user ```
-Não recebe nada como dado. Rota protegida por token JWT. (GET)
-Retorna todas as listas do usuário que fez a requisição.
+* Não recebe nada como dado. Rota protegida por token JWT. (GET)
+* Retorna todas as listas do usuário que fez a requisição.
 
 ### ``` shopping-list/get-by-user ```
-Recebe como dado o id da lista que deseja ver. Rota protegida por token JWT. (GET)
-Retorna a lista com determinado id.
+* Recebe como dado o id da lista que deseja ver. Rota protegida por token JWT. (GET)
+* Retorna a lista com determinado id.
 
 ### ``` shopping-list-item/check-item ```
-Recebe como dado o id da lista e do item que deseja marcar. Rota protegida por token JWT. (POST)
-Não há retorno.
+* Recebe como dado o id da lista e do item que deseja marcar. Rota protegida por token JWT. (POST)
+* Não há retorno.
 
 ### ``` user/get-statistcs```
-Não receb dados. Rota protegida por token JWT. (GET)
-Retorna as estatísticas do usuário que fez a requisição (itens e categorias mais usadas).
+* Não receb dados. Rota protegida por token JWT. (GET)
+* Retorna as estatísticas do usuário que fez a requisição (itens e categorias mais usadas).
 
 ## Pré-requisitos
 Ter uma versão atualizada do NodeJS instalada em sua máquina e um gerenciador de pacotes (yarn ou npm).
