@@ -1,73 +1,44 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Shoppingify - API
+Shoppingify-API foi construída para manipular os dados da aplicação Shoppingify. A API que utiliza NestJs, tem como responsabilidades lidar com as requisições do lado do cliente, como autenticação de usuário, criação, remocação e consulta de listas por usuário, criação de items e categorias e etc (melhor explorado nos tópicos abaixo que falam sobre as rotas da API).
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Pré-requisitos
+Ter uma versão atualizada do NodeJS instalada em sua máquina e um gerenciador de pacotes (yarn ou npm).
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+## Como executar
+Vá até a paste do projeto e digite:
 ```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+yarn ou npm install
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+para instalar as dependencias
 ```
+yarn start:dev ou npm run start:dev
+```
+para executar o projeto.
 
-## Support
+## Aviso
+Para rodar corretamente e não ter erro de banco de dados não encontrado pelo TypeORM, substitua as informações no arquivo de cofiguração do typeorm colocando as informações do seu banco de dados.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Habilidades desenvolvidas/aprimadoras com o desenvolvimento desse projeto
 
-## Stay in touch
+### Arquitetura
+O framework usado (NestJs) tem com uma de suas principais características a arquitetura que ele "impõe" para gente, sendo essa de modularização. O código todo é dividido em módulos, onde cada um tem um serviço (que cuida da lógica desse módulo), pode ter ou não um controller (que cuida da parte das requisições feitas pelo client), e um arquivo para entity (se esse módulo representar uma entidade no seu banco de dados). Como foi a primeira vez que utilizei esse framework e essa arquitetura, causou um pouco de estranhamento, mas com o desenvolvimento do projeto pude me adaptar e até gostei dessa abordagem para contruir API's.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Injeção de dependências
+Como falado no tópico acima, o framework impõe uma arquitetura que além de módulos tem como uma das principais características a injeção de dependêcias. Funciona de maneira simples e bem intuitiva. Por exemplo, você tem um servico 'a' que pertence ao módulo 'A', mas precisa de funções desse serviço 'a' em um serviço 'b' que pertence a um módulo 'B'. Mas como fazer isso? Simples! Com a injeção de dependêcias proposta pelo NestJs, podemos facilmente exportar o serviço 'a' e importa-lo no módulo 'B' e usar no serviço 'b'. A injeção é feita por meio do construtor da classe do serviço.
 
-## License
+### Uso de Guards (funcionam como middlewares)
+O framework introduz esse conceito de Guards, que tem a única responsabilidade de determinar por quem a requisição será tratada. A primeira vista não parece tão importante, mas se tornam essenciais quando falamos de rotas protegidas. Por exemplo, pego as rotas que usam uma Guard de JWT, ou seja, se a requisição não tiver um JWT válido a própria guard já retorna uma resposta como não autorizado.Isso é feito de maneira simples, apenas com um deocorator!
 
-Nest is [MIT licensed](LICENSE).
+### TypeORM
+Pela utilização de TypeORM, foi possível explorar toda a parte de criação de entidades usando sua sintaxe própria e de manipulação de repositórios. Apesar de toda adaptação ser já feita pelo framework, algumas coisas com configuração tem que ser tratadas manualmente.
+
+### Manipulação de dados
+Quando se constroi uma API, essa com certa é a habilidade mais desenvolvida. Nem sempre você pode somente pegar os dados do banco de dados e manda-lo para o cliente do mesmo jeio que veio, "crú". Um exemplo é em uma das principais rotas da api, a de 'items/index', onde ela retorna todos os items listados por categoria. Nesse caso ouve uma simples manoipulação para poder percorrer pelo items e separar cada um de acordo com sua categoria, para mandar ao cliente dados mais facéis de serem entedidos e apresentados ao usuário.
+
+### Deploy
+O deploy foi feito na plataforma do Heroku, que é bem simples de usar. Os principais pontos que tive que prestar mais atenção foram na parte de variáveis de ambiente (da Url do banco dados principalmente), adicionar um addon do banco postgres ao app no heroku, rodar as migrations iniciais na máquina hospedada no heroku e algumas configurações do TypeORM para rodar em produção.
+
+## Tópicos estudados
+* Framework NestJs e suas funcionalidades
+* Injeção de dependências
+* Arquitetura de módulos para construção de API (controllers, serviços, entidades)
