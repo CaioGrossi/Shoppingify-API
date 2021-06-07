@@ -40,7 +40,7 @@ Shoppingify-API foi construída para manipular os dados da aplicação Shoppingi
 * Não há retorno.
 
 ### ``` user/get-statistcs```
-* Não receb dados. Rota protegida por token JWT. (GET)
+* Não recebe dados. Rota protegida por token JWT. (GET)
 * Retorna as estatísticas do usuário que fez a requisição (itens e categorias mais usadas).
 
 ## Pré-requisitos
