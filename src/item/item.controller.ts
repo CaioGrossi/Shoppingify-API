@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateItemDto } from './dto/createItem';
 import { ItemService } from './item.service';
 
@@ -13,7 +13,17 @@ export class ItemController {
   }
 
   @Get('index')
-  async getAll() {
+  async getAllWithCategories() {
     return await this.itemService.findAllWithCategories();
+  }
+
+  @Get('all-not-in-list/:id')
+  async getAllItemsNotInList(@Param('id') listiId) {
+    return await this.itemService.findAllNotInList(listiId);
+  }
+
+  @Get('all')
+  async getAllItems() {
+    return await this.itemService.findAll();
   }
 }

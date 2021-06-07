@@ -11,4 +11,13 @@ export class ShoppingListItemController {
   async check(@Body() ids: { itemId: string; listId: string }) {
     return await this.shoopingListItemService.checkItem(ids.itemId, ids.listId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('remove-item')
+  async remove(@Body() ids: { itemId: string; listId: string }) {
+    return await this.shoopingListItemService.removeItem(
+      ids.itemId,
+      ids.listId,
+    );
+  }
 }

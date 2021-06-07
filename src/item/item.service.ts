@@ -61,4 +61,26 @@ export class ItemService {
   async findById(id: string) {
     return await this.itemRepository.findOne({ where: { id: id } });
   }
+
+  async findAll() {
+    return await this.itemRepository.find();
+  }
+
+  async findAllNotInList(listId: number) {
+    const listItems = await this.itemRepository.find({
+      relations: ['lists', 'lists.shoppingList'],
+    });
+
+    const itemsNotInList = listItems.filter((item) => {
+      for (let i = 0; i < item.lists.length; i++) {
+        if (item.lists[i].shoppingList.id == listId) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    return itemsNotInList;
+  }
 }

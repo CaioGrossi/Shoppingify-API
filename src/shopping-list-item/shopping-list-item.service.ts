@@ -34,6 +34,12 @@ export class ShoppingListItemService {
       relations: ['shoppingList', 'item'],
     });
 
+    await this.shoppingListItemRepository.delete({
+      id: shoppingListItem.id,
+      item: { id: shoppingListItem.item.id },
+      shoppingList: { id: shoppingListItem.shoppingList.id },
+    });
+
     const updatedShoppingListItem = this.shoppingListItemRepository.create({
       item: shoppingListItem.item,
       quantity: shoppingListItem.quantity,
@@ -42,6 +48,21 @@ export class ShoppingListItemService {
     });
 
     await this.shoppingListItemRepository.save(updatedShoppingListItem);
+
+    await this.shoppingListService.verifyStatusById(listId);
+  }
+
+  async removeItem(itemId: string, listId: string) {
+    const shoppingListItem = await this.shoppingListItemRepository.findOne({
+      where: { item: itemId, shoppingList: listId },
+      relations: ['shoppingList', 'item'],
+    });
+
+    await this.shoppingListItemRepository.delete({
+      id: shoppingListItem.id,
+      item: { id: shoppingListItem.item.id },
+      shoppingList: { id: shoppingListItem.shoppingList.id },
+    });
 
     await this.shoppingListService.verifyStatusById(listId);
   }

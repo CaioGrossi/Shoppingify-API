@@ -1,9 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ShoppingList } from '../shopping-list/shopping-list.entity';
 import { Item } from '../item/item.entity';
 
 @Entity()
 export class ShoppingListItem {
+  @PrimaryGeneratedColumn('uuid')
+  id: number;
+
   @Column()
   quantity: number;
 

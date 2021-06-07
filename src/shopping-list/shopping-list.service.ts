@@ -9,6 +9,7 @@ import { ShoppingListItemService } from 'src/shopping-list-item/shopping-list-it
 
 import { TopUserItemsService } from 'src/top-user-items/top-user-items.service';
 import { TopUserCategoriesService } from 'src/top-user-categories/top-user-categories.service';
+import AddNewItesmDto from './dto/addNewItems.dto';
 
 @Injectable()
 export class ShoppingListService {
@@ -68,6 +69,29 @@ export class ShoppingListService {
     return newShoppingList;
   }
 
+  async addNewItems(newItemsData: AddNewItesmDto, userId: number) {
+    const { listId, items } = newItemsData;
+
+    const shoppinglist = await this.shoppingListRepository.findOne({
+      where: { id: listId },
+      relations: ['owner'],
+    });
+
+    if (shoppinglist.owner.id != userId) {
+      return null;
+    }
+
+    for (const oneItem of items) {
+      const item = await this.itemService.findByName(oneItem.name);
+
+      await this.shoppingListItemService.create({
+        item: item,
+        quantity: oneItem.quantity,
+        shoppingList: shoppinglist,
+      });
+    }
+  }
+
   async delete(id: string, userId: number) {
     const shoppinglist = await this.shoppingListRepository.findOne({
       where: { id: id },
@@ -87,15 +111,15 @@ export class ShoppingListService {
       relations: ['items'],
     });
 
-    shoppignList.items.forEach((item) => {
-      if (item.checked != true && shoppignList.status != 'open') {
-        this.shoppingListRepository.update(id, { status: 'open' });
+    for (const item of shoppignList.items) {
+      if (!item.checked) {
+        await this.shoppingListRepository.update(id, { status: 'open' });
         return;
       }
-    });
+    }
 
     if (shoppignList.status != 'completed') {
-      this.shoppingListRepository.update(id, { status: 'completed' });
+      await this.shoppingListRepository.update(id, { status: 'completed' });
     }
   }
 

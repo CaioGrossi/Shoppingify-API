@@ -9,6 +9,7 @@ import {
 import CreateShoppingListDto from './dto/createShoppingList.dto';
 import { ShoppingListService } from './shopping-list.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import AddNewItesmDto from './dto/addNewItems.dto';
 
 @Controller('shopping-list')
 export class ShoppingListController {
@@ -56,5 +57,15 @@ export class ShoppingListController {
     );
 
     return shoppingList;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('add-new-items')
+  async addNewItems(
+    @Request() request,
+    @Body() addNewItemsDto: AddNewItesmDto,
+  ) {
+    const userId = request.user.userId;
+    await this.shoppingListService.addNewItems(addNewItemsDto, userId);
   }
 }
