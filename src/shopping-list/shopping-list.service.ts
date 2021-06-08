@@ -72,6 +72,8 @@ export class ShoppingListService {
   async addNewItems(newItemsData: AddNewItesmDto, userId: number) {
     const { listId, items } = newItemsData;
 
+    const user = await this.usersService.findById(String(userId));
+
     const shoppinglist = await this.shoppingListRepository.findOne({
       where: { id: listId },
       relations: ['owner'],
@@ -89,7 +91,25 @@ export class ShoppingListService {
         quantity: oneItem.quantity,
         shoppingList: shoppinglist,
       });
+
+      await this.topUserItemsService.updateUsedTimes(user, item.name);
+      await this.topUserCategoriesService.updateUsedTimes(
+        user,
+        item.category.name,
+      );
     }
+
+    await this.usersService.uptadeItemsQuantity(
+      String(userId),
+      user.items_quantity,
+      items.length,
+    );
+
+    await this.usersService.updateCategoriesQuantity(
+      String(userId),
+      user.category_quantity,
+      items.length,
+    );
   }
 
   async delete(id: string, userId: number) {
